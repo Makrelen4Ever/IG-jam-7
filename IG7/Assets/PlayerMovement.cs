@@ -24,6 +24,18 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    [Header("Dashing")]
+    public bool IsDashActivated;
+    
+    [Space]
+
+    public float DashLength = 15;
+    public float DashTime = 0.1f;
+    public float DashSteps = 10;
+
+    private bool CanDash;
+    private bool IsDashing;
+
     [Header("Dying")]
     public float LastYPosition;
     public GameObject DiePar;
@@ -36,6 +48,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if(IsDashing){
+            return;
+        }
+
         InputAxis = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         if(InputAxis.magnitude > 1){
             InputAxis = InputAxis.normalized;
@@ -57,9 +73,30 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Die");
             StartCoroutine(Die());
         }
+
+        if(IsGrounded()){
+            CanDash = true;
+        }
+
+        if((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown("space")) && CanDash && IsDashActivated){
+            StartCoroutine(Dash());
+        }
+
+        if(Input.GetKeyDown("t")){
+            var instances = GameObject.FindGameObjectsWithTag("UI");
+            foreach(GameObject instance in instances){
+                Destroy(instance);
+            }
+            SceneManager.LoadScene(0);
+        }
     }
 
     void FixedUpdate(){
+
+        if(IsDashing){
+            return;
+        }
+
         Vector2 force = new Vector2(InputAxis.x * Acceleration, 0);
         rb.AddForce(force);
 
@@ -74,6 +111,26 @@ public class PlayerMovement : MonoBehaviour
         if(IsRight() || IsLeft()){
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -1, 100));
         }
+    }
+
+    IEnumerator Dash(){
+        rb.gravityScale = 0;
+        rb.velocity = Vector3.zero;
+        IsDashing = true;
+
+        float dir = InputAxis.x;
+
+        if(dir == 0){
+            dir = 1;
+        }
+
+        for(var i = 0; i <= DashSteps; i++){
+            rb.MovePosition(transform.position + ((DashLength / DashSteps) * dir) * transform.right);
+            yield return new WaitForSeconds(DashTime / DashSteps);
+        }
+
+        IsDashing = false;
+        rb.gravityScale = 5;
     }
 
     bool IsGrounded(){

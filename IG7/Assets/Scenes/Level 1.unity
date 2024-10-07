@@ -319,6 +319,7 @@ GameObject:
   - component: {fileID: 412348542}
   - component: {fileID: 412348544}
   - component: {fileID: 412348543}
+  - component: {fileID: 412348545}
   m_Layer: 5
   m_Name: Timer
   m_TagString: Untagged
@@ -387,6 +388,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 412348541}
   m_CullTransparentMesh: 1
+--- !u!114 &412348545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412348541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1519627b607f2f4f80f2d4474fae717, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StartTime: 0
 --- !u!1 &459682605
 GameObject:
   m_ObjectHideFlags: 0
@@ -1088,7 +1102,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.75, y: 1}
+  m_Size: {x: 0.95, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &459901913
 MonoBehaviour:
@@ -1416,7 +1430,7 @@ GameObject:
   - component: {fileID: 1186005954}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2169,6 +2183,10 @@ MonoBehaviour:
   JumpForce: 25
   WallJumpVelocity: {x: 15, y: 35}
   InputAxis: {x: 0, y: 0}
+  IsDashActivated: 1
+  DashLength: 15
+  DashTime: 0.1
+  DashSteps: 10
   LastYPosition: 0
   DiePar: {fileID: 6264033784960194921, guid: 1bca246612cf1c34cafc09e710702b13, type: 3}
   SpawnPoint: {x: 0, y: 0, z: 0}
