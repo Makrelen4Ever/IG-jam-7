@@ -53,8 +53,9 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if(transform.position.y < -20 || Input.GetKeyDown("r")){
-            Die();
+        if(transform.position.y <= -25 || Input.GetKeyDown("r")){
+            Debug.Log("Die");
+            StartCoroutine(Die());
         }
     }
 
@@ -105,6 +106,7 @@ public class PlayerMovement : MonoBehaviour
         var par = Instantiate(DiePar, transform.position, Quaternion.Euler(0, 0, 0));
         Destroy(par, 5);
         yield return new WaitForSeconds(0.1f);
+        rb.velocity = Vector3.zero;
         transform.position = SpawnPoint;
     }
 }
